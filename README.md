@@ -322,6 +322,8 @@ Palate Design should have those sections:
 - Module
 - Additional comments or pseudo code
 
+---
+
 ## Excercise from [Substrate Runtime Developer Academy](https://github.com/SubstrateDevAcademy)
 
 ---
