@@ -332,21 +332,22 @@ Palate Design should have those sections:
 
 ## Exercise One
 
-1. Setup development environment
-2. Fork & clone this project
-3. Update author in Cargo.toml file
-4. Run a single node testnet and send a transaction
+1. `Setup` development environment
+2. `Fork & clone` this project
+3. `Update author in Cargo.toml` file
+4. Run a `single node testnet` and `send a transaction`
 
 ---
 
 ## Exercise Two
 
-1. Design kitties pallet
+1. Design `kitties pallet`
 2. Requirements:
-   - Kitty must have a 128 bit DNA, which is randomly generated
-   - Kitty must have one owner
-   - A user can have zero or more kitties
-   - Users can create kitties
+   - Kitty must have a `128 bit DNA`, which is randomly generated
+   - Kitty must have `one owner`
+   - A `user can have zero or more kitties`
+   - Users can `create` kitties
+3. Kitties can be `created`, `breed`, `transferred` and `sold`.
 
 ---
 
