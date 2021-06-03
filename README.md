@@ -243,3 +243,44 @@ https://telemetry.polkadot.io/
 --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0'
 --name 'node name'
 ```
+
+### Create a Multi-Node Network
+
+Valodator Alice
+
+```bash
+SKIP_WASM_BUILD= cargo run -- \
+  --base-path data/node1 \
+  --chain local \
+  --alice \
+  --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
+  --name validator-alice-sha888 \
+  --validator
+```
+
+Validator Bob
+```bash
+SKIP_WASM_BUILD= cargo run -- \
+  --base-path data/node2 \
+  --chain local \
+  --bob \
+  --port 30334 \
+  --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
+  --name validator-bob-sha888 \
+  --validator
+```
+
+Command Line arguments
+
+```bash
+  --help
+  --chain <dev | local | path/to/genesis.json>
+  --alice (alice, bob, charlie, dave, eve, ferdie)
+  --validator
+  --force-authoring
+  --node-key <key> / --node-key-file <file>
+  -d, --base-path <path>
+  --tmp
+  --telemetry-url <url verbosity>
+  --name <node name>
+```
