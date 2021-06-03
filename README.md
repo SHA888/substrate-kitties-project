@@ -321,3 +321,36 @@ Palate Design should have those sections:
 - Events
 - Module
 - Additional comments or pseudo code
+
+## Excercise from [Substrate Runtime Developer Academy]
+
+(https://github.com/SubstrateDevAcademy)
+
+---
+
+## Exercise One
+
+1. Setup development environment
+2. Fork & clone this project
+3. Update author in Cargo.toml file
+4. Run a single node testnet and send a transaction
+
+---
+
+## Exercise Two
+
+1. Design kitties pallet
+2. Requirements:
+   - Kitty must have a 128 bit DNA, which is randomly generated
+   - Kitty must have one owner
+   - A user can have zero or more kitties
+   - Users can create kitties
+
+---
+
+NOTES:
+
+- The course videos were recorded with Substrate 2.0 but all the assignments have been updated to Substrate 3.0.
+- The main significant change between Substrate 2.0 and 3.0 is `Trait` have been renamed to `Config` to reduce confusion.
+
+---
