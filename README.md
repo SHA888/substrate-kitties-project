@@ -241,4 +241,5 @@ https://telemetry.polkadot.io/
 
 ```bash
 --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0'
+--name 'node name'
 ```
