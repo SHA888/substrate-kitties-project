@@ -300,6 +300,7 @@ Command Line arguments
   -l, --log <long pattern> e.g. -lruntime=debug -lsync=trace
 
 ```
+
 Sub commands
 
 ```bash
@@ -308,3 +309,15 @@ node-template purge-chain --chain=local -d data/node1 -y
 build-spec
 node-template build-spec --chain=local --raw
 ```
+
+### Design a Pallate
+
+Palate Design should have those sections:
+
+- Types
+- Trait
+- Storages
+- Calls
+- Events
+- Module
+- Additional comments or pseudo code
