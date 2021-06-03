@@ -283,4 +283,15 @@ Command Line arguments
   --tmp
   --telemetry-url <url verbosity>
   --name <node name>
+  --bootnodes <multiaddr>
+  --reserved-nodes <multiaddr>
+  --reserved-only
+  --port <p2p port, default 30333>
+  --ws-port <ws port, default 9944>
+  --rpc-port <rpc port, default 9933>
+  --prometheus-port <prometheus port, default 9615>
+  --ws-external
+  --rpc-external
+  --rpc-cors <domains, or 'all'>
+  --rpc-methods <Unsafe | Safe | Auto>
 ```
