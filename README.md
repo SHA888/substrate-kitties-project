@@ -324,9 +324,9 @@ Palate Design should have those sections:
 
 ---
 
-## Excercise from [Substrate Runtime Developer Academy](https://github.com/SubstrateDevAcademy)
-
 ---
+
+## Excercise from [Substrate Runtime Developer Academy](https://github.com/SubstrateDevAcademy)
 
 ---
 
