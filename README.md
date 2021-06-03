@@ -212,7 +212,7 @@ cargo build --release
 Run
 
 ```bash
-cargo run -- --dev
+cargo run -- --dev --tmp
 ```
 
 ```bash
@@ -229,4 +229,16 @@ Check
 
 ```bash
 SKIP_WASM_BUILD= cargo check
+```
+
+### Frontend
+
+Polkadot-JS App UI
+https://polkadot.js.org/apps/#/explorer
+
+Telemetry
+https://telemetry.polkadot.io/
+
+```bash
+--telemetry-url 'wss://telemetry.polkadot.io/submit/ 0'
 ```
