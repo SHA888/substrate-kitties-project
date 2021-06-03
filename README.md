@@ -259,6 +259,7 @@ SKIP_WASM_BUILD= cargo run -- \
 ```
 
 Validator Bob
+
 ```bash
 SKIP_WASM_BUILD= cargo run -- \
   --base-path data/node2 \
@@ -294,4 +295,16 @@ Command Line arguments
   --rpc-external
   --rpc-cors <domains, or 'all'>
   --rpc-methods <Unsafe | Safe | Auto>
+  --pruning <number or blocks or 'archive'>
+  --execution <Native | Wasm | Both | NativeElseWasm>
+  -l, --log <long pattern> e.g. -lruntime=debug -lsync=trace
+
+```
+Sub commands
+
+```bash
+purge-chain
+node-template purge-chain --chain=local -d data/node1 -y
+build-spec
+node-template build-spec --chain=local --raw
 ```
