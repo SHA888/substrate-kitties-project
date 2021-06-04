@@ -310,6 +310,31 @@ build-spec
 node-template build-spec --chain=local --raw
 ```
 
+Substrate macros
+
+- A pallet is implemented with multiple macros
+
+```bash
+  decl_module
+  decl_storage
+  decl_event
+  decl_error
+```
+
+- Runtime is assembled with another macro
+
+```bash
+  construct_runtime
+```
+
+- [Cargo expand](https://github.com/dtolnay/cargo-expand)
+
+```bash
+  BUILD_DUMMY_WASM_BINARY= cargo expand -p node-template-runtime > runtime.rs
+
+  BUILD_DUMMY_WASM_BINARY= cargo expand -p pallet-template > template.rs
+```
+
 ### Design a Pallate
 
 Palate Design should have those sections:

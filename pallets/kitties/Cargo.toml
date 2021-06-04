@@ -14,6 +14,8 @@ codec = {default-features = false, features = ['derive'], package = 'parity-scal
 # Substrate dependencies
 frame-support = {default-features = false, version = '3.0.0', git = 'https://github.com/paritytech/substrate.git', tag = 'monthly-2021-05'}
 frame-system = {default-features = false, version = '3.0.0', git = 'https://github.com/paritytech/substrate.git', tag = 'monthly-2021-05'}
+sp-io = {default-features = false, version = '3.0.0', git = 'https://github.com/paritytech/substrate.git', tag = 'monthly-2021-05'}
+pallet-randomness-collective-flip = { default-features = false, version = "3.0.0", git = 'https://github.com/paritytech/substrate.git', tag = 'monthly-2021-05' }
 
 [features]
 default = ['std']
@@ -21,4 +23,6 @@ std = [
 	'codec/std',
 	'frame-support/std',
 	'frame-system/std',
+	'sp-io/std',
+	'pallet-randomness-collective-flip/std',
 ]
