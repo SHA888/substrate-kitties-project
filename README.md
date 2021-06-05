@@ -335,7 +335,7 @@ Substrate macros
   SKIP_WASM_BINARY= cargo expand -p pallet-template > template.rs
 ```
 
-### Design a Pallate
+### Design a Pallet
 
 Palate Design should have those sections:
 
@@ -347,6 +347,23 @@ Palate Design should have those sections:
 - Module
 - Additional comments or pseudo code
 
+### Implement Kitties Pallet
+
+Kitties Pallet Design
+- Calls
+  - create
+  - 
+- Storages
+  - Kitties: double_map AccountId, u32 => Option<Kitty>
+  - NextKittyId: u32
+- Types
+  - struct Kitty([u8; 16])
+- Events
+  - KittyCreated
+    - owner: AccountId
+    - kitty_id: u32
+    - kitty: Kitty
+    
 ---
 
 ---
