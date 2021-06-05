@@ -3828,7 +3828,7 @@ dependencies = [
  "pallet-balances",
  "pallet-grandpa",
  "pallet-kitties",
- "pallet-randomness-collective-flip",
+ "pallet-randomness-collective-flip 3.0.0 (git+https://github.com/paritytech/substrate.git?tag=monthly-2021-05)",
  "pallet-sudo",
  "pallet-template",
  "pallet-timestamp",
@@ -4078,7 +4078,23 @@ version = "0.1.0"
 dependencies = [
  "frame-support 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "frame-system 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pallet-randomness-collective-flip 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "parity-scale-codec",
+ "sp-io 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "pallet-randomness-collective-flip"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ca3ea6fa9aa36735ec11d7ec4d97dd6472650c0656fdc6d4adaca2578bd71134"
+dependencies = [
+ "frame-support 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "frame-system 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "parity-scale-codec",
+ "safe-mix",
+ "sp-runtime 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sp-std 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
