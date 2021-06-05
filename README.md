@@ -330,9 +330,9 @@ Substrate macros
 - [Cargo expand](https://github.com/dtolnay/cargo-expand)
 
 ```bash
-  BUILD_DUMMY_WASM_BINARY= cargo expand -p node-template-runtime > runtime.rs
+  SKIP_WASM_BINARY= cargo expand -p node-template-runtime > runtime.rs
 
-  BUILD_DUMMY_WASM_BINARY= cargo expand -p pallet-template > template.rs
+  SKIP_WASM_BINARY= cargo expand -p pallet-template > template.rs
 ```
 
 ### Design a Pallate
