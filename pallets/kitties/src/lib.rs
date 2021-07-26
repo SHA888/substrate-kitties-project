@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+ #![cfg_attr(not(feature = "std"), no_std)]
 
 use codec::{Encode, Decode};
 use frame_support::{decl_module, decl_storage, decl_event, decl_error, StorageValue, StorageDoubleMap,
