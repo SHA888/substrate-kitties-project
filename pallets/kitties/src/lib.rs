@@ -112,6 +112,60 @@ pub mod pallet {
     )]
     pub enum Event<T: Config> {
         /// A kitty is created. \[owner, kitty_id, kitty\]
+        KittyCreated(T::AccountId, KittyIndexOf<T>, Kitty),
+        /// A new kitten is bred. \[owner, kitty_id, kitty\]
+        KittyBread(T::AccountId, KittyIndexOf<T>, Kitty),
+        /// A kitty is transferred. \[from, to, kitty_id\]
+        KittyTransferred(T::AccountId, T::AccountId, KittyIndexOf<T>),
+        /// The price for a kitty is updated. \[owner, kitty_id, price\]
+        KittyPriceUpdated(T::AccountId, KittyIndexOf<T>, Option<BalanceOf<T>>),
+        /// A kitty is sold. \[old_owner, new_owner, kitty_id, price\]
+        KittySold(T::AccountId, T::AccountId, KittyIndexOf<T>, BalanceOf<T>),
+
+    }
+
+    #[pallet::error]
+    pub enum Error<T> {
+        InvalidKittyId,
+        SameGender,
+        NotOwner,
+        NotForSale,
+        PriceTooLow,
+        BuyFromSelf,
+    }
+
+    #[pallet::pallet]
+    #[pallet::generate_store(pub(super) trait Store)]
+    pub struct Pallet<T>(_);
+
+    #[pallet::hooks]
+    impl<T: Config> Hooks<BlockNumberFor> for Pallet<T> {
+        fn offchain_worker(_now: T::BlockNumber) {
+            let _ = Self::run_offchain_worker();
+        }
+    }
+
+    #[pallet::call]
+    impl<T: Config> Pallet<T> {
+
+        /// Create a ne kitty
+        #[pallet::weight(T::WeightInfo::create())]
+        pub fn create(origin: OriginFor<T>) -> DispatchResult {
+            let sender = ensure_signed(origin)?;
+
+            let dna = Self::random_value(&sender);
+
+            // Create and store kitty
+            let kitty = Kitty(dna);
+            let kitty_id = orml_nft::Pallet::<T>::mint(&sender, Self::class_id(), Vec::new(), kitty.clone())?;
+
+            // Emit event
+            Self::deposit_event(Event::KittyCreated(sender, kitty_id, kitty));
+
+            Ok(())
+        }
+
+
     }
 
 
