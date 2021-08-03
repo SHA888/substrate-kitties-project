@@ -148,7 +148,7 @@ pub mod pallet {
     #[pallet::call]
     impl<T: Config> Pallet<T> {
 
-        /// Create a ne kitty
+        /// Create a new kitty
         #[pallet::weight(T::WeightInfo::create())]
         pub fn create(origin: OriginFor<T>) -> DispatchResult {
             let sender = ensure_signed(origin)?;
@@ -163,6 +163,16 @@ pub mod pallet {
             Self::deposit_event(Event::KittyCreated(sender, kitty_id, kitty));
 
             Ok(())
+        }
+
+        /// Breed kitties
+        #[pallet::weight(T::WeightInfo::breed())]
+        pub fn breed(origin: OriginFor<T>, kitty_id_1: KittyIndexOf<T>, kitty_id_2: KittyIndexOf<T>) -> DispatchResult {
+            let sender = ensure_signed(origin)?;
+            let kitty1 = Self::kitties(&sender, kitty_id_1).ok_or(Error::<T>::InvalidKittyId)?;
+            let kitty2 = Self::kitties(&sender, kitty_id_2).ok_or(Error::<T>::InvalidKittyId)?;
+
+            Self::do_breed(sender, kitty1, kitty2)
         }
 
 
