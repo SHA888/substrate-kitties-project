@@ -317,7 +317,14 @@ impl<T: Config> Pallet<T> {
         Ok(())
     }
 
-    // TODO: validate solution
+    fn validate_solution(kitty_id_1: KittyIndexOf<T>, kitty_id_2: KittyIndexOf<T>, nonce: u32, solution: u128) -> bool {
+        let payload = (kitty_id_1, kitty_id_2, nonce, solution);
+        let hash = payload.using_encoded(blake2_128);
+        let hash_value = u128::from_le_bytes(hash);
+        let difficulty = T::DefaultDifficulty::get();
+
+        hash_value < (u128::max_value() / difficulty as u128)
+    }
 
 }
 
