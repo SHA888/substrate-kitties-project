@@ -364,9 +364,18 @@ impl<T: Config> Pallet<T> {
             }
         };
 
-        // Solution Prefix
-    }
+        let solution_prefix = rng.next_u32() as u128;
 
+        for i in 0..remaining_iterations {
+            let solution = (solution_prefix << 32) + i;
+            if Self::validate_solution(kitty_id_1, kitty_id_2, nonce, solution) {
+                let _ = SubmitTransaction::<T, Call<T>>::submit_unsigned_transaction(Call::<T>::auto_breed(kitty_1, kitty_2, nonce, solution).into());
+                break;
+            }
+        }
+
+        Ok(())
+    }
 }
 
 
