@@ -197,3 +197,18 @@ fn can_transfer() {
     });
 }
 
+#[test]
+fn handle_self_transfer() {
+    new_test_ext().execute_with(|| {
+        assert_ok!(KittiesModule::create(Origin::signed(100)));
+
+        System::reset_events();
+
+        assert_noop!(KittiesModule::transfer(Origin::signed(100), 100, 1), orml_nft::Error::<Test>::TokenNotFound);
+
+        assert_ok!(KittiesModule::transfer(Origin::signed(100), 100, 0));
+
+        // no transfer event because no actual transfer is executed.
+        assert_eq!(System::events().len(), 0);
+    });
+}
