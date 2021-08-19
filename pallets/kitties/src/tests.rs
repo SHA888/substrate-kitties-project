@@ -234,3 +234,31 @@ fn can_set_price() {
         System::assert_last_event(Event::KittiesModule(crate::Event::KittiesPriceUpdated(100, 0, None)));
     });
 }
+
+#[test]
+fn can_buy() {
+    new_test_ext().execute_with(|| {
+        assert_ok!(KittiesModule::create(Origin::signed(100)));
+
+        assert_noop!(KittiesModule::buy(Origin::signed(100), 100, 0, 10), Error::<Test>::BuyFromSelf);
+        assert_noop!(KittiesModule::buy(Origin::signed(200), 100, 1, 10), Error::<Test>::NotForSale);
+        assert_noop!(KittiesModule::buy(Origin::signed(200), 100, 0, 10), Error::<Test>::NotForSale);
+
+        assert_ok!(KittiesModule::set_price(Origin::signed(100), 0, Some(600)));
+
+        assert_noop!(KittiesModule::buy(Origin::signed(200), 100, 0, 500), Error::<T>::PriceTooLow);
+
+        assert_noop!(KittiesModule::buy(Origin::signed(200), 100, 0, 600), pallet_balances::Error::<T>::InsufficientBalance);
+
+        assert_ok!(KittiesModule::set_price(Origin::signed(100), 0, Some(400)));
+
+        assert_ok!(KittiesModule::buy(Origin::signed(200), 100, 0, 500));
+
+        assert_eq!(KittyPrices::<Test>::contains_key(0), false);
+        assert_eq!(Nft::tokens(KittiesModule::class_id(), 0).unwrap().owner, 200);
+        assert_eq!(Balances::free_balance(100), 400);
+        assert_eq!(Balances::free_balance(200), 100);
+
+        System::assert_last_event(Event::KittiesModule(crate::Event::KittySold(100, 200, 0, 400)));
+    });
+}
