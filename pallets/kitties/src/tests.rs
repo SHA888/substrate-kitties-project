@@ -262,3 +262,26 @@ fn can_buy() {
         System::assert_last_event(Event::KittiesModule(crate::Event::KittySold(100, 200, 0, 400)));
     });
 }
+
+#[test]
+fn can_auto_breed(){
+    new_test_ext().execute_with(|| {
+        // nonce and solution are not checked by auto_breed directly
+
+        assert_ok!(KittiesModule::create(Origin::signed(100)));
+        assert_ok!(KittiesModule::create(Origin::signed(101)));
+
+        assert_noop!(KittiesModule::auto_breed(Origin::none(), 0, 2, 0, 0), Error::<Test>::InvalidKittyId);
+        assert_noop!(KittiesModule::auto_breed(Origin::none(), 0, 0, 0, 0), Error::<Test>::SameGender);
+        assert_noop!(KittiesModule::auto_breed(Origin::signed(100), 0, 1, 0, 0), BadOrigin);
+
+        assert_ok!(KittiesModule::auto_breed(Origin::none(), 0, 1, 0, 0));
+
+        let kitty = Kitty([34, 170, 2, 80, 145, 37, 4, 36, 35, 32, 179, 144, 169, 40, 2, 18]);
+
+        assert_eq!(KittiesModule::kitties(&100, 2), Some(kitty.clone()));
+        assert_eq!(Nft::tokens(KittiesModule::class_id(),2).unwrap().owner, 100);
+
+        System::assert_last_event(Event::KittiesModule(crate::Event::KittyBreed(100, 2, kitty)));
+    });
+}
