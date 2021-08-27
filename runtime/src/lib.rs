@@ -1,4 +1,4 @@
- #![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(feature = "std"), no_std)]
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
 #![recursion_limit="256"]
 
@@ -54,10 +54,6 @@ pub type Signature = MultiSignature;
 /// to the public key of our transaction signing scheme.
 pub type AccountId = <<Signature as Verify>::Signer as IdentifyAccount>::AccountId;
 
-/// The type for looking up accounts. We don't expect more than 4 billion of them, but you
-/// never know...
-pub type AccountIndex = u32;
-
 /// Balance of an account.
 pub type Balance = u128;
 
@@ -66,9 +62,6 @@ pub type Index = u32;
 
 /// A hash of some data used by the chain.
 pub type Hash = sp_core::H256;
-
-/// Digest item type.
-pub type DigestItem = generic::DigestItem<Hash>;
 
 /// Opaque types. These are used by the CLI to instantiate machinery that don't need to know
 /// the specifics of the runtime. They can then be made to be agnostic over specific formats
@@ -96,6 +89,7 @@ pub mod opaque {
 
 // To learn more about runtime versioning and what each of the following value means:
 //   https://substrate.dev/docs/en/knowledgebase/runtime/upgrades#runtime-versioning
+#[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("node-template"),
 	impl_name: create_runtime_str!("node-template"),
@@ -281,10 +275,9 @@ impl pallet_template::Config for Runtime {
 }
 
 parameter_types! {
-    pub const DefaultDifficulty: u32 = 100_000;
+	pub const DefaultDifficulty: u32 = 100;
 }
 
-/// Configure the pallet-kitties in pallets/template.
 impl pallet_kitties::Config for Runtime {
 	type Event = Event;
 	type Randomness = RandomnessCollectiveFlip;
@@ -292,7 +285,6 @@ impl pallet_kitties::Config for Runtime {
 	type WeightInfo = weights::pallet_kitties::WeightInfo<Runtime>;
 	type DefaultDifficulty = DefaultDifficulty;
 }
-
 
 parameter_types! {
 	pub const MaxClassMetadata: u32 = 0;
@@ -302,19 +294,19 @@ parameter_types! {
 impl orml_nft::Config for Runtime {
 	type ClassId = u32;
 	type TokenId = u32;
-    type ClassData = ();
+	type ClassData = ();
 	type TokenData = pallet_kitties::Kitty;
 	type MaxClassMetadata = MaxClassMetadata;
 	type MaxTokenMetadata = MaxTokenMetadata;
 }
 
-impl<C> frame_system::offchain::SendTransactionTypes<C> for Runtime where
-    Call:: From<C>,
+impl<C> frame_system::offchain::SendTransactionTypes<C> for Runtime
+where
+	Call: From<C>,
 {
 	type OverarchingCall = Call;
 	type Extrinsic = UncheckedExtrinsic;
 }
-
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -324,7 +316,7 @@ construct_runtime!(
 		UncheckedExtrinsic = UncheckedExtrinsic
 	{
 		System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
-		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Call, Storage},
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Storage},
 		Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
 		Aura: pallet_aura::{Pallet, Config<T>},
 		Grandpa: pallet_grandpa::{Pallet, Call, Storage, Config, Event},
@@ -333,8 +325,8 @@ construct_runtime!(
 		Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template::{Pallet, Call, Storage, Event<T>},
-		// Substrate Kitties module
-		Kitties: pallet_kitties::{Pallet, Storage, Call, Storage, Event<T>},
+		// Substrate Kitties pallet
+		Kitties: pallet_kitties::{Pallet, Storage, Call, Event<T>, Config, ValidateUnsigned},
 		Nft: orml_nft::{Pallet, Storage, Config<T>},
 	}
 );
@@ -345,10 +337,6 @@ pub type Address = sp_runtime::MultiAddress<AccountId, ()>;
 pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
 /// Block type as expected by this runtime.
 pub type Block = generic::Block<Header, UncheckedExtrinsic>;
-/// A Block signed with a Justification
-pub type SignedBlock = generic::SignedBlock<Block>;
-/// BlockId type as expected by this runtime.
-pub type BlockId = generic::BlockId<Block>;
 /// The SignedExtension to the basic transaction logic.
 pub type SignedExtra = (
 	frame_system::CheckSpecVersion<Runtime>,
@@ -361,8 +349,6 @@ pub type SignedExtra = (
 );
 /// Unchecked extrinsic type as expected by this runtime.
 pub type UncheckedExtrinsic = generic::UncheckedExtrinsic<Address, Call, Signature, SignedExtra>;
-/// Extrinsic type that has already been checked.
-pub type CheckedExtrinsic = generic::CheckedExtrinsic<AccountId, Call, SignedExtra>;
 /// Executive: handles dispatch to the various modules.
 pub type Executive = frame_executive::Executive<
 	Runtime,
@@ -411,10 +397,6 @@ impl_runtime_apis! {
 			data: sp_inherents::InherentData,
 		) -> sp_inherents::CheckInherentsResult {
 			data.check_extrinsics(&block)
-		}
-
-		fn random_seed() -> <Block as BlockT>::Hash {
-		 	RandomnessCollectiveFlip::random_seed().0
 		}
 	}
 
