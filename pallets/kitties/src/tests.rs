@@ -285,3 +285,36 @@ fn can_auto_breed(){
         System::assert_last_event(Event::KittiesModule(crate::Event::KittyBreed(100, 2, kitty)));
     });
 }
+
+#[test]
+fn can_validate_unsigned() {
+    new_test_ext().execute_with(|| {
+        // Only check nonce and solution are valid
+
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 0, 0), InvalidTransaction::BadProof.into()));
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 0, 1), InvalidTransaction::BadProof.into()));
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 0, 2), TransactionValidity::Ok(ValidTransaction {
+            priority: 0,
+            requires: vec![],
+            provides: vec![],
+            longevity: 64,
+            propagate: true,
+        }));
+
+        assert_eq!(KittiesModule::auto_breed_nonce(), 1);
+
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 0, 2)), InvalidTransaction::BadProof.into());
+
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 1, 11)), InvalidTransaction::BadProof.into());
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 1, 12)), InvalidTransaction::BadProof.into());
+        assert_eq!(KittiesModule::validate_unsigned(TransactionSource::InBlock, &crate::Call::auto_breed(0, 1, 1, 13)), TransactionValidity::Ok(ValidTransaction {
+            priority: 0,
+            requires: vec![],
+            provides: vec![],
+            longevity: 64,
+            propagate: true,
+        }));
+
+        assert_eq!(KittiesModule::auto_breed_nonce(), 2);
+    });
+}
